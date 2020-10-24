@@ -1,0 +1,1 @@
+# dymoesco - Dynamics Modeling, Estimation and Control
