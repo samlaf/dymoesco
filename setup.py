@@ -12,7 +12,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/samlaf/dymoesco",
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_namespace_packages(), # https://packaging.python.org/guides/packaging-namespace-packages/
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
