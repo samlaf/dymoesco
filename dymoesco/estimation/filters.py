@@ -1,3 +1,10 @@
+"""The :mod:`~dymoesco.estimation.filters` module contains the
+:class:`~dymoesco.estimation.filters.Filter` abstract class that is subclassed
+by specific filters such as :class:`~dymoesco.estimation.filters.KalmanFilter` and
+:class:`~dymoesco.estimation.filters.EKF`. Filters implement the predict and update
+methods which are used to "denoise" noisy state-space trajectories.
+"""
+
 import numpy as np
 from abc import ABC, abstractmethod
 import matplotlib.pyplot as plt
@@ -5,7 +12,14 @@ from matplotlib.patches import Ellipse
 from autograd import jacobian
 
 class Filter(ABC):
+	"""An abstract class for enforcing the predict/update filtering API.
 
+	The Filter abstract class allows filtering algorithms to be 
+	represented and plotted in Python.  It is intended as a parent
+	class for a set of subclasses that are used to implement specific
+	structures and operations for different types of dynamical systems.
+
+	"""
 	@abstractmethod
 	def predict(self, x, P, u):
 		pass
@@ -29,7 +43,28 @@ class Filter(ABC):
 		return ax
 
 class KalmanFilter(Filter):
+	r"""The well-known algorithm for filtering linear dynamical systems.
 
+	The KalmanFilter class implements the predict and update abstract methods
+	of `Filter` for linear dynamical systems 
+
+	.. math::
+		x_{k+1} &= Ax_k + Bu_k + v \\
+		y_k &= Cu_k + w
+
+	Parameters
+	----------
+	A : numpy matrix or equivalent list of list
+		Dynamics matrix from :math:`x_{k+1}=Ax_k+Bu_k+v`.
+	B : numpy matrix or equivalent list of list
+		Control matrix from :math:`x_{k+1}=Ax_k+Bu_k+v`.
+	C : numpy matrix or equivalent list of list
+		Observation matrix from :math:`y_k=Cu_k`.
+	Q : numpy matrix or equivalent list of list
+		Prediction noise covariance matrix for :math:`v \sim N(0,Q)`.
+	R : numpy matrix or equivalent list of list
+		Observation noise covariance matrix for :math:`w \sim N(0,Q)`.
+	"""
 	def __init__(self, A, B, C, Q, R):
 		self.A = A
 		self.B = B
@@ -49,13 +84,30 @@ class KalmanFilter(Filter):
 		P = (np.eye(P.shape[0]) - K @ self.C) @ P
 		return x, P
 
+def calc_jacobian(f, x, *args, use_autograd=False, eps = 1e-3):
+	r""" Calculates the jacobian of f wrt x.
+
+	Either using autograd or finite difference.
+	autograd is returning NaN for the beacon observation in diffdrive...
+	so need to use finite diff there. Otherwise use autograd.
+
+	"""
+	if use_autograd:
+		J = jacobian(f)(x, *args)
+	else:
+		J = np.zeros((len(f(x, *args)), len(x)))
+		for i in range(len(x)):
+			eps_i = np.zeros_like(x)
+			eps_i[i] = eps
+			J[:,i] = (f(x+eps_i, *args) - f(x, *args))/eps
+		return J
+
 class EKF(Filter):
-	
-	def __init__(self, f, g, Q_or_ustd, R, eps=1e-10):
+
+	def __init__(self, f, g, Q_or_ustd, R, eps=1e-10, use_autograd=False):
 		self.f = f
 		self.F = jacobian(f)
 		self.g = g
-		self.G = jacobian(g)
 		if len(np.shape(Q_or_ustd))==1:
 			self.Q = None
 			self.u_std = np.diag(Q_or_ustd)
@@ -65,6 +117,7 @@ class EKF(Filter):
 			self.u_std = None
 		self.R = R
 		self.eps = eps
+		self.use_autograd = use_autograd
 
 	def predict(self, x, P, u):
 		x = np.array(x)
@@ -76,15 +129,43 @@ class EKF(Filter):
 		P[np.abs(P) < self.eps] = 0
 		return x, P
 		
-	def update(self, x, P, z):
+	def _update(self, x, P, z):
+		# _update assumes z is a np.array of scalar observations
 		y = z - self.g(x)
-		Gx = self.G(x)
-		K = P @ Gx @ np.linalg.pinv(Gx @ P @ Gx.T + self.R)
+		Gx = calc_jacobian(self.g, x, use_autograd=self.use_autograd)
+		K = P @ Gx.T @ np.linalg.pinv(Gx @ P @ Gx.T + self.R)
 		x = x + K@y
 		P = (np.eye(P.shape[0]) - K @ Gx) @ P
 		P[np.abs(P) < self.eps] = 0
 		return x, P
 
+	def update(self, x, P, z):
+		# If z needs to be anything more complicated,
+		# we can subclass EKF and write a specific update function
+		# see dymoesco/dynamics/diffdrive.py for an example.
+		if z is None:
+			return x, P
+		return self._update(x, P, z)
+
 	def filter(self, traj, x0, P0):
 		pass
 
+class beaconsEKF(EKF):
+
+	def __init__(self, f, g, Q_or_ustd, R, eps=1e-10, use_autograd=False):
+		super().__init__(f, g, Q_or_ustd, R, eps=1e-10, use_autograd=False)
+
+	def update(self, x, P, z_dct):
+		for i, obs in z_dct.items():
+			x, P = self._update(x, P, obs, i)
+		return x, P
+
+	def _update(self, x, P, z, i):
+		# _update assumes z is a np.array of scalar observations
+		y = z - self.g(x, i)
+		Gx = calc_jacobian(self.g, x, i, use_autograd=self.use_autograd)
+		K = P @ Gx.T @ np.linalg.pinv(Gx @ P @ Gx.T + self.R)
+		x = x + K@y
+		P = (np.eye(P.shape[0]) - K @ Gx) @ P
+		P[np.abs(P) < self.eps] = 0
+		return x, P

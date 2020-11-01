@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 import matplotlib.patches as patches
 from dymoesco.dynamics.diffdrive import DiffDrive
+from dymoesco.estimation.filters import beaconsEKF
 matplotlib.use('qt5agg')
 
 nominalu = 3.
@@ -22,5 +23,8 @@ dt = 0.05
 dd = DiffDrive(radius=1, u_std=u_std, y_std=y_std)
 ddd = dd.discretize(dt)
 
-ekf = ddd.make_EKF(u_std, np.eye(3)*y_std**2)
+beacons = [[0.,0.]]
+ekfdd = DiffDrive(max_radar_range=sys.float_info.max, beacons=beacons)
+ekf = beaconsEKF(ekfdd._f, ekfdd._g, u_std, np.eye(2)*y_std**2)
+
 ddd.gui(key_to_u_map, x0=[-3.,-3.,0.], ekf=ekf)

@@ -58,12 +58,26 @@ class Rn(StateSpace):
 		return ani
 
 	def gui(self, key_to_u_map, x0, dim1=0, dim2=1):
-		""" self needs to be a DiscreteDynamicModel.
-		key_to_u_map is a dictionary that binds 'up', 'down', 'right', 'left' to controls.
-		eg: {'up': [0,1],
-			 'down': [0,-1],
-			 'right': [1,0],
-			 'left': [-1,0]}
+		r""" gui for Rn statespace models.
+
+		Starts an interactive gui for the dynamic_model in `self`, which is controlled using the arrows
+		(which binding defined by key_to_u_map).
+
+		Parameters
+		----------
+		key_to_u_map : dict
+			key_to_u_map binds 'up', 'down', 'right', 'left' to controls.
+
+		Examples
+		--------
+		::
+
+			key_to_u_map =  {'up': [0,1], 'down': [0,-1], 'right': [1,0], 'left': [-1,0]}
+
+		Notes
+		-----
+		self needs to be a DiscreteDynamicModel.
+
 		"""
 		fig, ax = plt.subplots()
 		ax.set_title('Drive by pressing the keyboard arrows.')
@@ -126,7 +140,7 @@ class SE2(StateSpace):
 		ani = FuncAnimation(fig, update, frames=len(traj.t), init_func=init, blit=True, interval=1000*dt)
 		return ani
 
-	def gui(self, key_to_u_map, x0, ekf=None, update_every_n_pred=10):
+	def gui(self, key_to_u_map, x0, ekf=None, show_pred = False, update_every_n_pred=10):
 
 		fig, ax = plt.subplots()
 		ax.set_title('Drive by pressing the keyboard arrows.')
@@ -164,21 +178,23 @@ class SE2(StateSpace):
 		# ground-truth Car
 		gtCar = Car(x0, color='black')
 
-		# EKF
-		if EKF is not None:
+		# ekf
+		if ekf is not None:
 			# Pred only
-			predCar = Car(x0, cov=5*np.eye(3), color='yellow')
+			if show_pred:
+				predCar = Car(x0, cov=5*np.eye(3), color='yellow')
 			# Pred + Update
 			EKFCar = Car(x0, cov=5*np.eye(3), color='green')
 
 		def on_timer(Car):
 			# EKF Update
-			if EKF is not None:
+			if ekf is not None:
 				# Pred only
-				predCar.update(*ekf.predict(predCar.state, predCar.cov, Car.nextu))
+				if show_pred:
+					predCar.update(*ekf.predict(predCar.state, predCar.cov, Car.nextu))
 				# Pred + Update
 				EKFCar.update(*ekf.predict(EKFCar.state, EKFCar.cov, Car.nextu))
-				#EKFCar.update(*ekf.update(EKFCar.state, EKFCar.cov, self.g(Car.state)))
+				EKFCar.update(*ekf.update(EKFCar.state, EKFCar.cov, self.g(Car.state)))
 
 			# Car Update
 			Car.update(self.f(Car.state, Car.nextu))
@@ -187,12 +203,12 @@ class SE2(StateSpace):
 		timer = fig.canvas.new_timer(interval=1000*self.dt, callbacks=[(on_timer, [gtCar], {})])
 		timer.start()
 
-		if EKF is not None:
-			def on_timer2(EKFCar):
-				EKFCar.update(*ekf.update(EKFCar.state, EKFCar.cov, self.g(gtCar.state)))
-			timer2 = fig.canvas.new_timer(interval=1000*self.dt*update_every_n_pred, 
-											callbacks=[(on_timer2, [EKFCar], {})])
-			timer2.start()
+		# if ekf is not None:
+		# 	def on_timer2(EKFCar):
+		# 		EKFCar.update(*ekf.update(EKFCar.state, EKFCar.cov, self.g(gtCar.state)))
+		# 	timer2 = fig.canvas.new_timer(interval=1000*self.dt*update_every_n_pred, 
+		# 									callbacks=[(on_timer2, [EKFCar], {})])
+		# 	timer2.start()
 
 		def press(event, Car):
 			if event.key == 'up':

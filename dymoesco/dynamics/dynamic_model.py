@@ -33,9 +33,13 @@ class ContinuousDynamicModel(ABC):
 		return x
 
 	def g(self, x):
-		y = np.array(self._g(x))
-		y_noisy = y + np.random.normal(0, self.y_std, y.shape)
-		return y_noisy
+		obs = self._g(x)
+		if obs is None:
+			return obs
+		else:
+			y = np.array(obs)
+			y_noisy = y + np.random.normal(0, self.y_std, y.shape)
+			return y_noisy
 
 	def simulate(self, u, t_span, x0, t_eval=None):
 		"""simulate calls solve_ivp and returns a Trajectory object.
@@ -76,13 +80,13 @@ class ContinuousDynamicModel(ABC):
 	def discretize(self, dt):
 		# simple euler discretization
 		cts_f = self._f
-		cts_g = self._g
 		class DiscretizedDynamicModel(DiscreteDynamicModel, *self.__class__.__bases__[1:]):
 			def _f(self, x, u):
 				return x + cts_f(x,u) * dt
-			def _g(self, x):
-				return cts_g(x)
-		return DiscretizedDynamicModel(dt, self.u_std, self.y_std)
+		dd = DiscretizedDynamicModel(dt, self.u_std, self.y_std)
+		dd._g = self._g
+		dd.g = self.g
+		return dd
 
 class DiscreteDynamicModel(ABC):
 
@@ -107,9 +111,16 @@ class DiscreteDynamicModel(ABC):
 		return x
 
 	def g(self, x):
-		y = np.array(self._g(x))
-		y_noisy = y + np.random.normal(0, self.y_std, y.shape)
-		return y_noisy
+		obs = self._g(x)
+		if obs is None:
+			return obs
+		else:
+			y = np.array(obs)
+			y_noisy = y + np.random.normal(0, self.y_std, y.shape)
+			return y_noisy
 
 	def make_EKF(self, Q, R):
+		""" This creates an EKF using the model's _f and _g functions.
+			Sometimes we might need the EKF to have a slightly different _g function
+			than the model (for eg. the diffdrive range/bearing obs). In that case, use EKF direction."""
 		return EKF(self._f, self._g, Q, R)
