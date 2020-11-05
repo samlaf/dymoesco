@@ -19,7 +19,7 @@ def process_logging_level():
 	# https://docs.python.org/3/howto/logging.html#logging-to-a-file (a bit lower down)
 	numeric_level = getattr(logging, args.log.upper(), None)
 	if not isinstance(numeric_level, int):
-		raise ValueError('Invalid log level: %s' % loglevel)
+		raise ValueError('Invalid log level: %s' % numeric_level)
 	logging.basicConfig(level=numeric_level)
 
 def turn_off_logging_wrapper(f):
