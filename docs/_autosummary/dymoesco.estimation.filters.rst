@@ -1,4 +1,4 @@
-dymoesco.estimation.filters
+﻿dymoesco.estimation.filters
 ===========================
 
 .. automodule:: dymoesco.estimation.filters
@@ -8,12 +8,6 @@ dymoesco.estimation.filters
    
 
    
-   
-   .. rubric:: Functions
-
-   .. autosummary::
-   
-      calc_jacobian
    
    
 

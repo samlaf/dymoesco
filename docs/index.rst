@@ -9,7 +9,7 @@ Welcome to dymoesco's documentation!
 .. toctree::
    :maxdepth: 2
 
-   _modules/modules
+   _modules/dymoesco
 
 API Reference
 =============

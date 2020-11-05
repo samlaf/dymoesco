@@ -7,10 +7,34 @@ from dymoesco.types import Trajectory
 from dymoesco.estimation.filters import EKF
 
 class ContinuousDynamicModel(ABC):
-	""" Abstract continuous-time time-invariant dynamic model class.
-		If need to implement a time-varying system, need to write new class.
+	r""" The main abstract class in dymoesco which all models need to subclass.
 
-		All subclasses need to override _f, and can override _g."""
+	:class:`ContinuousDynamicModel` defines the main API through which all models implemented
+	in dymoesco will interface. Estimation and Control algorithms will most likely only
+	work on objects whose class inherits from ContinuousDynamicModel. The subclasses need
+	to implement :meth:`_f`, the dynamics function which implements a system 
+	:math:`\dot{x} = _f(x,u) + \epsilon`. They can also overwrite :meth:`_g`, the observation 
+	function :math:`y = _g(x) + \epsilon`, which by default	is the identity function.
+	Note that _f and _g should be deterministic functions. Noise is added in :meth:`f` and
+	:meth:`g`, which will be called by the object instances.
+	The main method available to ContinuousDynamicModel instances is then :func:`simulate`
+	which calls scipy's `solve_ivp <https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html>`_
+	and returns a :py:class:`dymoesco.types.Trajectory` object.
+
+	Parameters
+	----------
+	u_std : float or list of floats
+		Standard deviation of dynamics noise.
+	y_std : float or list of floats
+		Standard deviation of observation noise.
+
+	Notes
+	-----
+	We have decided to use a time-invariant API, since most systems of interest to
+	robotics are time-invariant. Users that need to implement a time-varying system
+	will need to write their own class, which will be similar to this class.
+
+	"""
 	def __init__(self, u_std=0, y_std=0):
 		self.state_names = None
 		self.control_names = None
@@ -19,9 +43,25 @@ class ContinuousDynamicModel(ABC):
 
 	@abstractmethod
 	def _f(self, x, u):
+		r"""Dynamics function implementation
+
+		_f implements the dynamics function :math:`\dot{x} = _f(x,u)`. This is an abstract
+		method which needs to be implemented by any class inheriting from :class:`ContinuousDynamicModel`.
+
+		Notes
+		-----
+		This is a private method which will never be called explicitly. :meth:`f` will call this method.
+		This is similar to python's `special method names <https://docs.python.org/3/reference/datamodel.html#special-method-names>`_.
+		"""
 		pass
 
 	def f(self, x, u):
+		r"""General dynamics function which is called in code.
+
+		`f` adds some boiletplate around :meth:`_f`, such as adding the noise to make the dynamical
+		system stochastic: :math:`\dot{x} = f(x,u) = _f(x,u) + \epsilon`. In most cases only `f` will
+		not need to be overridden.
+		"""
 		u = np.array(u, ndmin=1)
 		if np.sum(u) != 0:
 			u_noisy = u + np.random.normal(0, self.u_std, u.shape)
@@ -33,6 +73,14 @@ class ContinuousDynamicModel(ABC):
 		return x
 
 	def g(self, x):
+		r""" General observation function which is called in code.
+
+		`f` adds some boiletplate around :meth:`_f`, such as adding the noise to make the dynamical
+		system stochastic: :math:`\dot{x} = f(x,u) = _f(x,u) + \epsilon`. In most cases only `f` will
+		not need to be overridden. In some special cases an observation model implementation
+		might be complicated enough to warranty overriding g. See :meth:`dymoesco.dynamics.diffdrive.DiffDrive.g`
+		for an example.
+		"""
 		obs = self._g(x)
 		if obs is None:
 			return obs
@@ -83,7 +131,9 @@ class ContinuousDynamicModel(ABC):
 		class DiscretizedDynamicModel(DiscreteDynamicModel, *self.__class__.__bases__[1:]):
 			def _f(self, x, u):
 				return x + cts_f(x,u) * dt
-		dd = DiscretizedDynamicModel(dt, self.u_std, self.y_std)
+		dd = DiscretizedDynamicModel(dt)
+		dd.__dict__ = self.__dict__
+		dd.dt = dt
 		dd._g = self._g
 		dd.g = self.g
 		return dd

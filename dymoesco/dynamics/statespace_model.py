@@ -1,8 +1,9 @@
 from abc import ABC
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from matplotlib.patches import Ellipse
+from matplotlib.patches import Ellipse, Circle
 import numpy as np
+import logging
 from dymoesco.estimation.filters import EKF
 
 class StateSpace(ABC):
@@ -149,7 +150,8 @@ class SE2(StateSpace):
 
 		u0 = np.zeros_like(key_to_u_map['up'])
 		class Car():
-			def __init__(self, x0, cov = None, color=None):
+			def __init__(self, x0, cov = None, color=None, name=None):
+				self.name = name
 				self.state = x0
 				self.ellipse = Ellipse(x0[:-1], 2.0, 1.0, x0[-1], color=color)
 				ax.add_patch(self.ellipse)
@@ -161,6 +163,7 @@ class SE2(StateSpace):
 					ax.add_patch(self.cov_ellipse)
 
 			def update(self, state, cov=None):
+				logging.info(f"Car {self.name} state: {state}")
 				self.state = state
 				self.cov = cov
 				self.ellipse.set_center(state[:-1])
@@ -176,15 +179,20 @@ class SE2(StateSpace):
 					self.nextu = u0
 
 		# ground-truth Car
-		gtCar = Car(x0, color='black')
+		gtCar = Car(x0, color='black', name="ground-truth")
+		# plot its beacons if there are any
+		for bx,by in self.beacons:
+			ax.plot(bx, by, '*', color='y')
+			ax.add_patch(Circle((bx,by), self.max_radar_range, fill=False, linestyle='--', color='y'))
+
 
 		# ekf
 		if ekf is not None:
 			# Pred only
 			if show_pred:
-				predCar = Car(x0, cov=5*np.eye(3), color='yellow')
+				predCar = Car(x0, cov=5*np.eye(3), color='yellow', name="pred-only")
 			# Pred + Update
-			EKFCar = Car(x0, cov=5*np.eye(3), color='green')
+			EKFCar = Car(x0, cov=5*np.eye(3), color='green', name="ekf")
 
 		def on_timer(Car):
 			# EKF Update

@@ -10,6 +10,8 @@ from abc import ABC, abstractmethod
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 from autograd import jacobian
+from dymoesco.utils import turn_off_logging_wrapper
+import logging
 
 class Filter(ABC):
 	"""An abstract class for enforcing the predict/update filtering API.
@@ -84,6 +86,7 @@ class KalmanFilter(Filter):
 		P = (np.eye(P.shape[0]) - K @ self.C) @ P
 		return x, P
 
+@turn_off_logging_wrapper
 def calc_jacobian(f, x, *args, use_autograd=False, eps = 1e-3):
 	r""" Calculates the jacobian of f wrt x.
 
@@ -100,7 +103,7 @@ def calc_jacobian(f, x, *args, use_autograd=False, eps = 1e-3):
 			eps_i = np.zeros_like(x)
 			eps_i[i] = eps
 			J[:,i] = (f(x+eps_i, *args) - f(x, *args))/eps
-		return J
+	return J
 
 class EKF(Filter):
 
@@ -163,8 +166,11 @@ class beaconsEKF(EKF):
 	def _update(self, x, P, z, i):
 		# _update assumes z is a np.array of scalar observations
 		y = z - self.g(x, i)
+		logging.debug(f"observation z: {z}")
+		logging.debug(f"innovation y: {y}")
 		Gx = calc_jacobian(self.g, x, i, use_autograd=self.use_autograd)
 		K = P @ Gx.T @ np.linalg.pinv(Gx @ P @ Gx.T + self.R)
+		logging.debug(f"Kalman gain K: \n {K}")
 		x = x + K@y
 		P = (np.eye(P.shape[0]) - K @ Gx) @ P
 		P[np.abs(P) < self.eps] = 0
