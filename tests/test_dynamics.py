@@ -1,5 +1,7 @@
 from dymoesco.dynamics.dynamic_model import ContinuousDynamicModel, DiscreteDynamicModel
 from dymoesco.dynamics.diffdrive import DiffDrive
+from dymoesco.control.misc_controllers import generate_smooth_control
+from dymoesco.types import Trajectory
 import unittest
 import numpy as np
 
@@ -71,6 +73,10 @@ class TestDiffDrive(unittest.TestCase):
 		self.assertFalse(np.array_equal(ddd.f([0,0,0],[1,0]),
 										[dt,0,0]))
 
+	def test_simulate(self):
+		"""Make sure simulate returns a Trajectory object."""
+		traj = self.dd.simulate(lambda t: [1,1], (0,1), [0,0,0], (0,1))
+		self.assertTrue(isinstance(traj, Trajectory))
 
 
 if __name__ == '__main__':
