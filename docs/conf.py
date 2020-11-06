@@ -12,7 +12,8 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../dymoesco/'))
+path_to_dymoesco = os.path.abspath(os.path.join(__file__, '../../dymoesco'))
+sys.path.insert(0, path_to_dymoesco)
 
 
 # -- Project information -----------------------------------------------------
