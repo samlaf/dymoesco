@@ -18,3 +18,4 @@ pip install -r requirements.txt .
 
 ### Docs
 Sphinx documentation is found in the /docs directory.
+Currently readthedocs documentation build is failing because it doesn't recognize namespace packages (see https://github.com/sphinx-doc/sphinx/issues/7727).
