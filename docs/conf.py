@@ -12,8 +12,7 @@
 #
 import os
 import sys
-path_to_dymoesco = os.path.abspath(os.path.join(__file__, '../../dymoesco'))
-sys.path.insert(0, path_to_dymoesco)
+sys.path.insert(0, os.path.abspath('../dymoesco'))
 
 
 # -- Project information -----------------------------------------------------
@@ -33,7 +32,9 @@ extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx.ext.autosumma
 autosummary_generate = True
 
 # Add any paths that contain templates here, relative to this directory.
+# Look here for autosummary extension we're using: https://stackoverflow.com/a/62613202/4971151
 templates_path = ['_templates']
+
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.

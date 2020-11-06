@@ -9,22 +9,15 @@ Welcome to dymoesco's documentation!
 .. toctree::
    :maxdepth: 2
 
-   _modules/dymoesco
-
 API Reference
 =============
 
 .. autosummary::
    :toctree: _autosummary
+   :template: custom-module-template.rst
+   :recursive:
 
-   dymoesco.estimation.filters
-   dymoesco.control.misc_controllers
-   dymoesco.dynamics.statespace_model
-   dymoesco.dynamics.dynamic_model
-   dymoesco.dynamics.singleintegrator
-   dymoesco.dynamics.doubleintegrator
-   dymoesco.dynamics.diffdrive
-   dymoesco.types
+   dymoesco
 
 
 Indices and tables
