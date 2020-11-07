@@ -10,9 +10,8 @@ Welcome to dymoesco's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   _apidoc/modules
 
-.. automodule:: dymoesco.dynamics.dynamic_model
-	:members:
 
 
 
