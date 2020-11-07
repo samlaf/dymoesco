@@ -8,7 +8,7 @@ dymoesco is my attempt at building a general purpose robotics library to speed u
 
 ### Installation
 
-dymoesco is structured as a [namespace package](https://packaging.python.org/guides/packaging-namespace-packages/), which `estimation`, `control`, and `dynamics` as the main subpackages.
+dymoesco revolves around three subpackages: `estimation`, `control`, and `dynamics`. There are other helper modules such as `dymoesco.utils` and `dymoesco.types`.
 Installing dymoesco works just like any other package
 
 ```shell
@@ -18,4 +18,3 @@ pip install -r requirements.txt .
 
 ### Docs
 Sphinx documentation is found in the /docs directory.
-Currently readthedocs documentation build is failing because it doesn't recognize namespace packages (see https://github.com/sphinx-doc/sphinx/issues/7727).
