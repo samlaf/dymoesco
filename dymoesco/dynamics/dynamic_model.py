@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import final
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 import autograd.numpy as np
