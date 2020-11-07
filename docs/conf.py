@@ -31,10 +31,13 @@ release = '0.0.1'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-'sphinx.ext.autodoc', 'sphinx.ext.napoleon'
+'sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx.ext.autosummary'
 ]
+autosummary_generate = True
 
 # Add any paths that contain templates here, relative to this directory.
+# Using this for autosummary https://stackoverflow.com/a/62613202/4971151
+# Will be included in rtd4.0, but until then need this.
 templates_path = ['_templates']
 
 # List of patterns, relative to source directory, that match files and
