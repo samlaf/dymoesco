@@ -11,7 +11,7 @@ Welcome to dymoesco's documentation!
    :caption: Contents:
 
 
-.. automodule:: dymoesco.dynamics.diffdrive
+.. automodule:: dymoesco.dynamics.dynamic_model
 	:members:
 
 
