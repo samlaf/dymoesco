@@ -26,7 +26,7 @@ With the general framework developed in this library, it is easy to extend it wi
 
 #### Simple Dynamical Systems
 
-<link href="style.css" rel="stylesheet"></link>
+<link href="./style.css" rel="stylesheet"></link>
 <div class="row">
   <div class="column">
 	<center><b> Single Integrator </b></center>
