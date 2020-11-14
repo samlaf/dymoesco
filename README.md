@@ -30,21 +30,15 @@ With the general framework developed in this library, it is easy to extend it wi
 <div class="row">
   <div class="column">
 	<center><b> Single Integrator </b></center>
-	<video width="100%" controls>
-		<source src="./videos_and_images/singleintegrator.mkv">
-	</video>
+	<img src="./videos_and_images/singleintegrator.gif"/>
   </div>
   <div class="column">
 	<center><b> Double Integrator </b></center>
-	<video width="100%" controls>
-		<source src="./videos_and_images/doubleintegrator.mkv">
-	</video>
+	<img src="./videos_and_images/doubleintegrator.gif"/>
   </div>
   <div class="column">
 	<center><b> Differential Drive </b></center>
-	<video width="100%" controls>
-		<source src="./videos_and_images/diffdrive_kinematic.mkv">
-	</video>
+	<img src="./videos_and_images/diffdrive_kinematic.gif"/>
   </div>
 </div>
 
@@ -53,8 +47,7 @@ With the general framework developed in this library, it is easy to extend it wi
 
 My general impetus for developing this library was to understand range/beacon EKFs better.
 
-<video width="320" height="240" controls>
-  <source src="./videos_and_images/diffdrive_ekf.mkv">
-</video>
+<img src="./videos_and_images/diffdrive_ekf.gif"/>
+
 
 
