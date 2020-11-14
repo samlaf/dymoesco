@@ -1,4 +1,4 @@
-dymoesco.types
+﻿dymoesco.types
 ==============
 
 .. automodule:: dymoesco.types

@@ -1,5 +1,4 @@
-from dymoesco.dynamics.dynamic_model import ContinuousDynamicModel, DiscreteDynamicModel
-from dymoesco.dynamics.diffdrive import DiffDrive
+from dymoesco.dynamics.dynamic_models import ContinuousDynamicModel, DiscreteDynamicModel, DiffDrive
 from dymoesco.control.misc_controllers import generate_smooth_control
 from dymoesco.types import Trajectory
 import unittest

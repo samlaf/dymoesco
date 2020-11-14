@@ -1,7 +1,7 @@
-dymoesco.dynamics.diffdrive.DiffDrive
-=====================================
+dymoesco.dynamics.dynamic\_models.DiffDrive
+===========================================
 
-.. currentmodule:: dymoesco.dynamics.diffdrive
+.. currentmodule:: dymoesco.dynamics.dynamic_models
 
 .. autoclass:: DiffDrive
    :members:

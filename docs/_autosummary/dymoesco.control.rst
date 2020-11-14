@@ -1,4 +1,4 @@
-dymoesco.control
+﻿dymoesco.control
 ================
 
 .. automodule:: dymoesco.control

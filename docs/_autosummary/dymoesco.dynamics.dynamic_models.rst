@@ -1,7 +1,7 @@
-dymoesco.dynamics.dynamic\_model
-================================
+dymoesco.dynamics.dynamic\_models
+=================================
 
-.. automodule:: dymoesco.dynamics.dynamic_model
+.. automodule:: dymoesco.dynamics.dynamic_models
   
    
    
@@ -20,7 +20,10 @@ dymoesco.dynamics.dynamic\_model
 	  :template: custom-class-template.rst
    
 	  ContinuousDynamicModel
+	  DiffDrive
 	  DiscreteDynamicModel
+	  DoubleIntegrator
+	  SingleIntegrator
    
    
 

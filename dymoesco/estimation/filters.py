@@ -123,12 +123,14 @@ class EKF(Filter):
 		self.use_autograd = use_autograd
 
 	def predict(self, x, P, u):
+		predlogger = logging.getLogger('predict')
 		x = np.array(x)
 		u = np.array(u)
 		if self.u_std is not None:
 			self.Q = self.B(x,u) @ self.u_std**2 @ self.B(x,u).T
 		x = self.f(x, u)
 		P = self.F(x,u) @ P @ self.F(x,u).T + self.Q
+		predlogger.debug(f"Predict update: P'=FPF^T + Q\n Q: {self.Q}\n F: {self.F(x,u)}")
 		P[np.abs(P) < self.eps] = 0
 		return x, P
 		
@@ -137,7 +139,7 @@ class EKF(Filter):
 		y = z - self.g(x)
 		Gx = calc_jacobian(self.g, x, use_autograd=self.use_autograd)
 		K = P @ Gx.T @ np.linalg.pinv(Gx @ P @ Gx.T + self.R)
-		x = x + K@y
+		x = x + K @ y
 		P = (np.eye(P.shape[0]) - K @ Gx) @ P
 		P[np.abs(P) < self.eps] = 0
 		return x, P
@@ -164,14 +166,15 @@ class beaconsEKF(EKF):
 		return x, P
 
 	def _update(self, x, P, z, i):
+		updatelogger = logging.getLogger('update')
 		# _update assumes z is a np.array of scalar observations
 		y = z - self.g(x, i)
-		logging.debug(f"observation z: {z}")
-		logging.debug(f"innovation y: {y}")
+		updatelogger.debug(f"observation z: {z}")
+		updatelogger.debug(f"innovation y: {y}")
 		Gx = calc_jacobian(self.g, x, i, use_autograd=self.use_autograd)
 		K = P @ Gx.T @ np.linalg.pinv(Gx @ P @ Gx.T + self.R)
-		logging.debug(f"Kalman gain K: \n {K}")
-		x = x + K@y
+		updatelogger.debug(f"Kalman gain K: \n {K}")
+		x = x + K @ y
 		P = (np.eye(P.shape[0]) - K @ Gx) @ P
 		P[np.abs(P) < self.eps] = 0
 		return x, P

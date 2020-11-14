@@ -1,4 +1,4 @@
-dymoesco.dynamics
+﻿dymoesco.dynamics
 =================
 
 .. automodule:: dymoesco.dynamics
@@ -28,9 +28,6 @@ dymoesco.dynamics
    :template: custom-module-template.rst
    :recursive:
 
-   dymoesco.dynamics.diffdrive
-   dymoesco.dynamics.doubleintegrator
-   dymoesco.dynamics.dynamic_model
-   dymoesco.dynamics.singleintegrator
-   dymoesco.dynamics.statespace_model
+   dymoesco.dynamics.dynamic_models
+   dymoesco.dynamics.statespace_models
 

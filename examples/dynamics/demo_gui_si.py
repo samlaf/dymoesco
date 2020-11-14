@@ -2,7 +2,7 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
-from dymoesco.dynamics.singleintegrator import SingleIntegrator
+from dymoesco.dynamics.dynamic_models import SingleIntegrator
 #matplotlib.use('qt5agg')
 
 nominalu = 10

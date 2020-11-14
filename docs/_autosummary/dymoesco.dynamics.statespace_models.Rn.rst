@@ -1,7 +1,7 @@
-dymoesco.dynamics.statespace\_model.Rn
-======================================
+dymoesco.dynamics.statespace\_models.Rn
+=======================================
 
-.. currentmodule:: dymoesco.dynamics.statespace_model
+.. currentmodule:: dymoesco.dynamics.statespace_models
 
 .. autoclass:: Rn
    :members:

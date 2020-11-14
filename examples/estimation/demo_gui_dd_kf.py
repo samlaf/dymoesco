@@ -3,12 +3,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 import matplotlib.patches as patches
-from dymoesco.dynamics.diffdrive import DiffDrive
+from dymoesco.dynamics.dynamic_modelss import DiffDrive
 from dymoesco.estimation.filters import beaconsEKF
-from dymoesco.utils import process_logging_level
+from dymoesco.utils import parse_and_setup_logging
 matplotlib.use('qt5agg')
 
-process_logging_level()
+parse_and_setup_logging()
 
 nominalu = 3.
 v_std = 1.0

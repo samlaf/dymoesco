@@ -1,7 +1,7 @@
-dymoesco.dynamics.statespace\_model.SE2
-=======================================
+dymoesco.dynamics.statespace\_models.SE2
+========================================
 
-.. currentmodule:: dymoesco.dynamics.statespace_model
+.. currentmodule:: dymoesco.dynamics.statespace_models
 
 .. autoclass:: SE2
    :members:

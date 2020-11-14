@@ -1,7 +1,7 @@
-dymoesco.dynamics.doubleintegrator.DoubleIntegrator
-===================================================
+dymoesco.dynamics.dynamic\_models.DoubleIntegrator
+==================================================
 
-.. currentmodule:: dymoesco.dynamics.doubleintegrator
+.. currentmodule:: dymoesco.dynamics.dynamic_models
 
 .. autoclass:: DoubleIntegrator
    :members:

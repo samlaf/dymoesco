@@ -1,7 +1,7 @@
-dymoesco.dynamics.doubleintegrator
-==================================
+dymoesco.dynamics.statespace\_models
+====================================
 
-.. automodule:: dymoesco.dynamics.doubleintegrator
+.. automodule:: dymoesco.dynamics.statespace_models
   
    
    
@@ -19,7 +19,9 @@ dymoesco.dynamics.doubleintegrator
 	  :toctree:
 	  :template: custom-class-template.rst
    
-	  DoubleIntegrator
+	  Rn
+	  SE2
+	  StateSpace
    
    
 

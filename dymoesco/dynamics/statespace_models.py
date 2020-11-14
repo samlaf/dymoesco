@@ -1,3 +1,4 @@
+"""State space classes which dymoesco models can inherit from to get plotting facilities."""
 from abc import ABC
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
@@ -61,7 +62,7 @@ class Rn(StateSpace):
 	def gui(self, key_to_u_map, x0, dim1=0, dim2=1):
 		r""" gui for Rn statespace models.
 
-		Starts an interactive gui for the dynamic_model in `self`, which is controlled using the arrows
+		Starts an interactive gui for the dynamic_models in `self`, which is controlled using the arrows
 		(which binding defined by key_to_u_map).
 
 		Parameters
@@ -143,6 +144,7 @@ class SE2(StateSpace):
 
 	def gui(self, key_to_u_map, x0, ekf=None, show_pred = False, update_every_n_pred=10):
 
+		guilogger = logging.getLogger('gui')
 		fig, ax = plt.subplots()
 		ax.set_title('Drive by pressing the keyboard arrows.')
 		plt.xlim([-10,10])
@@ -163,7 +165,7 @@ class SE2(StateSpace):
 					ax.add_patch(self.cov_ellipse)
 
 			def update(self, state, cov=None):
-				logging.info(f"Car {self.name} state: {state}")
+				guilogger.info(f"Car {self.name} state: {state}")
 				self.state = state
 				self.cov = cov
 				self.ellipse.set_center(state[:-1])
@@ -171,7 +173,7 @@ class SE2(StateSpace):
 				if cov is not None:
 					self.cov = cov
 					w, v = np.linalg.eig(cov[:2,:2])
-					self.cov_ellipse.set_angle(np.arctan2(v[0][1], v[0][0]))
+					self.cov_ellipse.set_angle(np.rad2deg(np.arctan2(v[1][0], v[0][0])))
 					self.cov_ellipse.set_width(np.sqrt(w[0]))
 					self.cov_ellipse.set_height(np.sqrt(w[1]))
 					self.cov_ellipse.set_center(state)

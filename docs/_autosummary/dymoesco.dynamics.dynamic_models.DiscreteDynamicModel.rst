@@ -1,7 +1,7 @@
-dymoesco.dynamics.dynamic\_model.DiscreteDynamicModel
-=====================================================
+dymoesco.dynamics.dynamic\_models.DiscreteDynamicModel
+======================================================
 
-.. currentmodule:: dymoesco.dynamics.dynamic_model
+.. currentmodule:: dymoesco.dynamics.dynamic_models
 
 .. autoclass:: DiscreteDynamicModel
    :members:

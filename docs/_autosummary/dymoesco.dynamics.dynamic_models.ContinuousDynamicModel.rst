@@ -1,7 +1,7 @@
-dymoesco.dynamics.dynamic\_model.ContinuousDynamicModel
-=======================================================
+dymoesco.dynamics.dynamic\_models.ContinuousDynamicModel
+========================================================
 
-.. currentmodule:: dymoesco.dynamics.dynamic_model
+.. currentmodule:: dymoesco.dynamics.dynamic_models
 
 .. autoclass:: ContinuousDynamicModel
    :members:

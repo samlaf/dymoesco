@@ -1,4 +1,4 @@
-dymoesco.estimation
+﻿dymoesco.estimation
 ===================
 
 .. automodule:: dymoesco.estimation

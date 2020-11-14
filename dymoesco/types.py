@@ -1,5 +1,6 @@
+"""Module containing types (classes) used in dymoesco."""
 class Trajectory(dict):
-	""" Just a type to hold trajectories: t, x(t), u(t), y(t)"""
+	""" Class to hold trajectories: t, x(t), u(t), y(t)"""
 	def __init__(self, t=None, x=None, u=None, y=None):
 		self.t = t
 		self.x = x

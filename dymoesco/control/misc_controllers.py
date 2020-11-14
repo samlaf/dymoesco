@@ -1,15 +1,26 @@
+"""Control sequence generators."""
 import numpy as np
 from scipy import signal
 from scipy.interpolate import interp1d
 
 def generate_smooth_control(umin, umax, t_range, dt, noise_std = 0.0, rng=None, output="function"):
-	"""
-	Inputs
-	umin (float or list of floats): minimum control value for each dimensions specified.
-	umax (float or list of floats): maximum control value for each dimensions specified.
-	t_range (float, float)        : tmin and tmax in between which we want to generate controls.
-	dt (float)                    : dt
-	output ("function" or "array"): output is either a function (of time) or an array which we can index.
+	"""generate a low-pass filtered control sequence.
+	
+	Parameters
+	----------
+	umin : float or list of floats
+		minimum control value for each dimensions specified.
+	umax : float or list of floats
+		maximum control value for each dimensions specified.
+	t_range : (float, float) tuple
+		tmin and tmax in between which we want to generate controls.
+	dt : float
+		time delta
+
+	Returns
+	-------
+	function or array:
+		output is either a function (of time) or an array which we can index, depending on `output` parameter.
 	"""
 	if rng is None:
 		rng = np.random.default_rng()

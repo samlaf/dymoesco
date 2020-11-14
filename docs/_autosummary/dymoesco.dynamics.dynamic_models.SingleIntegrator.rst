@@ -1,7 +1,7 @@
-dymoesco.dynamics.singleintegrator.SingleIntegrator
-===================================================
+dymoesco.dynamics.dynamic\_models.SingleIntegrator
+==================================================
 
-.. currentmodule:: dymoesco.dynamics.singleintegrator
+.. currentmodule:: dymoesco.dynamics.dynamic_models
 
 .. autoclass:: SingleIntegrator
    :members:

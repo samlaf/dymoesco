@@ -1,4 +1,4 @@
-dymoesco.utils
+﻿dymoesco.utils
 ==============
 
 .. automodule:: dymoesco.utils
@@ -16,7 +16,7 @@ dymoesco.utils
    
 	  modpi2pi
 	  modrange
-	  process_logging_level
+	  parse_and_setup_logging
 	  turn_off_logging_wrapper
    
    

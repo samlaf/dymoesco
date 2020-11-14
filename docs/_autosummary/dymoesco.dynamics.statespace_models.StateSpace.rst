@@ -1,7 +1,7 @@
-dymoesco.dynamics.statespace\_model.StateSpace
-==============================================
+dymoesco.dynamics.statespace\_models.StateSpace
+===============================================
 
-.. currentmodule:: dymoesco.dynamics.statespace_model
+.. currentmodule:: dymoesco.dynamics.statespace_models
 
 .. autoclass:: StateSpace
    :members:
