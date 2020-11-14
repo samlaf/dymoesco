@@ -83,8 +83,10 @@ class Rn(StateSpace):
 		"""
 		fig, ax = plt.subplots()
 		ax.set_title('Drive by pressing the keyboard arrows.')
-		plt.xlim([-10,10])
-		plt.ylim([-10,10])
+		ax.set_xlim([-10,10])
+		ax.set_ylim([-10,10])
+		ax.get_yaxis().set_visible(False)
+		ax.get_xaxis().set_visible(False)
 
 		u0 = np.zeros_like(key_to_u_map['up'])
 		class Dot(): pass
@@ -147,8 +149,10 @@ class SE2(StateSpace):
 		guilogger = logging.getLogger('gui')
 		fig, ax = plt.subplots()
 		ax.set_title('Drive by pressing the keyboard arrows.')
-		plt.xlim([-10,10])
-		plt.ylim([-10,10])
+		ax.set_xlim([-10,10])
+		ax.set_ylim([-10,10])
+		ax.get_yaxis().set_visible(False)
+		ax.get_xaxis().set_visible(False)
 
 		u0 = np.zeros_like(key_to_u_map['up'])
 		class Car():

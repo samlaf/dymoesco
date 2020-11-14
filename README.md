@@ -18,3 +18,43 @@ pip install -r requirements.txt .
 
 ### Docs
 Sphinx documentation is found in the /docs directory.
+
+
+### Examples
+
+With the general framework developed in this library, it is easy to extend it with simple dynamical systems, mapping the arrow keys to inputs and driving using matplotlib as gui.
+
+#### Simple Dynamical Systems
+
+<link href="style.css" rel="stylesheet"></link>
+<div class="row">
+  <div class="column">
+	<center><b> Single Integrator </b></center>
+	<video width="100%" controls>
+		<source src="./videos_and_images/singleintegrator.mkv">
+	</video>
+  </div>
+  <div class="column">
+	<center><b> Double Integrator </b></center>
+	<video width="100%" controls>
+		<source src="./videos_and_images/doubleintegrator.mkv">
+	</video>
+  </div>
+  <div class="column">
+	<center><b> Differential Drive </b></center>
+	<video width="100%" controls>
+		<source src="./videos_and_images/diffdrive_kinematic.mkv">
+	</video>
+  </div>
+</div>
+
+
+#### Range/Bearing EKF on a differential drive model
+
+My general impetus for developing this library was to understand range/beacon EKFs better.
+
+<video width="320" height="240" controls>
+  <source src="./videos_and_images/diffdrive_ekf.mkv">
+</video>
+
+
