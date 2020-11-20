@@ -27,31 +27,17 @@ With the general framework developed in this library, it is easy to extend it wi
 #### Simple Dynamical Systems
 
 <!-- <link href="./style.css" rel="stylesheet"></link> -->
-<style>
-	.column {
-  float: left;
-  width: 33.33%;
-  padding: 5px;
-}
 
-/* Clear floats after image containers */
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-</style>
-
-<div class="row">
-  <div class="column">
+<div class="row" style="content: ''; clear: both; display: table;">
+  <div class="column" style="float: left; width: 33.33%; padding: 5px;">
 	<center><b> Single Integrator </b></center>
 	<img src="./videos_and_images/singleintegrator.gif"/>
   </div>
-  <div class="column">
+  <div class="column" style="float: left; width: 33.33%; padding: 5px;">
 	<center><b> Double Integrator </b></center>
 	<img src="./videos_and_images/doubleintegrator.gif"/>
   </div>
-  <div class="column">
+  <div class="column" style="float: left; width: 33.33%; padding: 5px;">
 	<center><b> Differential Drive </b></center>
 	<img src="./videos_and_images/diffdrive_kinematic.gif"/>
   </div>
