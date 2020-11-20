@@ -26,7 +26,22 @@ With the general framework developed in this library, it is easy to extend it wi
 
 #### Simple Dynamical Systems
 
-<link href="./style.css" rel="stylesheet"></link>
+<!-- <link href="./style.css" rel="stylesheet"></link> -->
+<style>
+	.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+
 <div class="row">
   <div class="column">
 	<center><b> Single Integrator </b></center>
