@@ -26,22 +26,27 @@ With the general framework developed in this library, it is easy to extend it wi
 
 #### Simple Dynamical Systems
 
-<!-- <link href="./style.css" rel="stylesheet"></link> -->
+| Single Integrator | Double Integrator | Differential Drive |
+|---|---|---|
+|<img src="./videos_and_images/singleintegrator.gif"/> | <img src="./videos_and_images/doubleintegrator.gif"/> | <img src="./videos_and_images/diffdrive_kinematic.gif"/> |
 
-<div class="row" style="content: ''; clear: both; display: table;">
-  <div class="column" style="float: left; width: 33.33%; padding: 5px;">
+<!-- css doesn't seem to work on github.. so using the above table for now.
+<link href="./style.css" rel="stylesheet"></link>
+<div class="row">
+  <div class="column">
 	<center><b> Single Integrator </b></center>
-	<img src="./videos_and_images/singleintegrator.gif"/>
+	  <center><img src="./videos_and_images/singleintegrator.gif" width="33.33%"/></center>
   </div>
-  <div class="column" style="float: left; width: 33.33%; padding: 5px;">
+  <div class="column">
 	<center><b> Double Integrator </b></center>
-	<img src="./videos_and_images/doubleintegrator.gif"/>
+	<img src="./videos_and_images/doubleintegrator.gif" width="33.33%"/>
   </div>
-  <div class="column" style="float: left; width: 33.33%; padding: 5px;">
+  <div class="column">
 	<center><b> Differential Drive </b></center>
-	<img src="./videos_and_images/diffdrive_kinematic.gif"/>
+	<img src="./videos_and_images/diffdrive_kinematic.gif" width="33.33%"/>
   </div>
 </div>
+-->
 
 
 #### Range/Bearing EKF on a differential drive model
