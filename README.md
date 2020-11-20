@@ -30,7 +30,8 @@ With the general framework developed in this library, it is easy to extend it wi
 |---|---|---|
 |<img src="./videos_and_images/singleintegrator.gif"/> | <img src="./videos_and_images/doubleintegrator.gif"/> | <img src="./videos_and_images/diffdrive_kinematic.gif"/> |
 
-<!-- css doesn't seem to work on github.. so using the above table for now.
+<!-- css doesn't seem to work on github (see https://github.com/primer/css).. 
+	 so using the above table for now.
 <link href="./style.css" rel="stylesheet"></link>
 <div class="row">
   <div class="column">
